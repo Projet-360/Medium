@@ -15,6 +15,10 @@
             </div>
         </div>
     </div>
+    <div class="mb-5">
+        {{> comment_form }}
+        {{> comment_list }}
+    </div>
 </template>
 
 <template name="article_create_form">
@@ -41,8 +45,9 @@
                 <input type="text" class="form-control mb-2" name="title" value="{{article.title}}">
                 <textarea rows="20" name="content" class="form-control mb-2" placeholder="Contenu de l'article">{{article.content}}</textarea>
                 <div class="my-1 text-right">
+                    <button class="btn btn-danger float-left js-delete-article">supprimer</button>
                     <a class="btn btn-outline-secondary" href="/article/{{article._id}}">Annuler</a>                    
-                    <button type="submit" class="btn btn-success">Publier</button>
+                    <button type="submit" class="btn btn-success">Modifier</button>
                 </div>
             </form>
         </div>

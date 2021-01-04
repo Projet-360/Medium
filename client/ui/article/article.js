@@ -40,3 +40,29 @@ Template.article_edit_form.helpers({
         return Articles.findOne({_id: FlowRouter.getParam('articleId')})
     }
 })
+
+Template.article_edit_form.events({
+    'submit .js-edit-article'(event, instance) {
+        event.preventDefault();
+
+        const title = event.target.title.value
+        const content = event.target.content.value
+
+        let articleDoc = {
+            title:title,
+            content:content,
+            createdAt: new Date(),
+            ownerId: Meteor.userId()
+        }
+
+        Articles.update({_id: FlowRouter.getParam('articleId')},{$set: {title:title, content:content}})
+
+        FlowRouter.go('/article/:articleId', {articleId: FlowRouter.getParam('articleId')})
+    },
+    'click .js-delete-article'(event, instance) {
+        Articles.remove({_id: FlowRouter.getParam('articleId')})
+
+        FlowRouter.go('/')
+    }
+})
+
