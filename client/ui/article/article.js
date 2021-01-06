@@ -42,7 +42,7 @@ Template.article_edit_form.events({
     'submit .js-edit-article'(event, instance) {
         event.preventDefault();
        
-        Meteor.call('updateArticle', FlowRouter.getParam('articleId'), { title:title, content:content }, function(err, res) {
+        Meteor.call('updateArticle', { id: FlowRouter.getParam('articleId'), title:title, content:content }, function(err, res) {
             if(!err) {
                 FlowRouter.go('/article/:articleId', {articleId: FlowRouter.getParam('articleId')})
             }      
