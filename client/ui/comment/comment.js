@@ -4,19 +4,20 @@ import { Comments } from '../../../both'
 
 Template.comment_form.events({
     'submit .js-create-comment' (event, instance) {
-        event.preventdDefault();
+        event.preventDefault()
 
-        const content = event.target.centent.value
+        const content = event.target.content.value
 
-        let commentDoc = {
-            content: content,
-            articleId: FlowRouter.getParam('articleId'),
-            createdAt: new Date(),
-            ownerId:  Meteor.userId()
-        }
+        Meteor.call('insertComment', {content:content, articleId: FlowRouter.getParam('articleId')}, function(err, res) {
+            if(!err) {
+                event.target.content.value = ""
+            }            
+        })       
+    }
+})
 
-        Comments.insert(commentDoc)
-
-        event.target.centent.value = ""
+Template.comment_list.helpers({
+    comments() {
+        return Comments.find({articleId: FlowRouter.getParam('articleId')}, {sort: {createdAt: 1}})
     }
 })
