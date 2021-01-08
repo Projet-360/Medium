@@ -1,3 +1,3 @@
 import './accountConfig'
-export * from './methods'
+import './methods'
 export * from './collections'

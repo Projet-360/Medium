@@ -4,15 +4,13 @@ import { Comments } from '../../../both'
 
 Template.comment_form.events({
     'submit .js-create-comment' (event, instance) {
-        event.preventDefault()
+        event.preventDefault();
 
         const content = event.target.content.value
 
-        Meteor.call('insertComment', {content:content, articleId: FlowRouter.getParam('articleId')}, function(err, res) {
-            if(!err) {
-                event.target.content.value = ""
-            }            
-        })       
+        Meteor.call('insertComment', {content:content, articleId: FlowRouter.getParam('articleId')})
+
+        event.target.content.value = ""
     }
 })
 
