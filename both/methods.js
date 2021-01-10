@@ -1,7 +1,13 @@
 import { Articles, Comments } from './collections'
+import { check } from 'meteor/check'
 
 Meteor.methods({
     insertArticle(article) {
+        check(article, {
+            title: String,
+            content: String            
+        })
+
         let articleDoc = {
             title: article.title,
             content: article.content,
