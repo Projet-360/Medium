@@ -10,10 +10,11 @@ Template.article_create_form.events({
         const content = event.target.content.value
 
         Meteor.call('insertArticle', {title: title, content: content},
-        function (err, res){
+        function (err, articleId){
             if(!err) {
                 event.target.title.value=''
                 event.target.content.value=''
+                FlowRouter.go('/article/:articleId', {articleId: articleId})
             }
         })
     }
@@ -44,7 +45,7 @@ Template.article_edit_form.events({
         const title = event.target.title.value
         const content = event.target.content.value
 
-        Meteor.call('updateArticle', FlowRouter.getParam('articleId'), { title:title, content:content },
+        Meteor.call('updateArticle', { id:FlowRouter.getParam('articleId'), title:title, content:content },
         function (err, res){
             if(!err) {
                 FlowRouter.go('/article/:articleId', {articleId: FlowRouter.getParam('articleId')})

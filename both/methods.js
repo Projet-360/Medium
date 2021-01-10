@@ -1,12 +1,9 @@
-import { Articles, Comments } from './collections'
+import { Articles, Comments, articleUpsertSchema, commentUpsertSchema } from './collections'
 import { check } from 'meteor/check'
 
 Meteor.methods({
     insertArticle(article) {
-        check(article, {
-            title: String,
-            content: String            
-        })
+        articleUpsertSchema.validate(article)
 
         let articleDoc = {
             title: article.title,
@@ -16,8 +13,11 @@ Meteor.methods({
         }
         return Articles.insert(articleDoc)
     },
-    updateArticle(articleId, article) {
-        Articles.update({_id: articleId},
+
+    updateArticle(article) {
+        articleUpsertSchema.validate(article)
+
+        Articles.update({_id: article.id},
         {
             $set: 
             {
@@ -26,11 +26,15 @@ Meteor.methods({
             }
         }
     )},
+
     removeArticle(articleId) {
+        check(articleId, String)
         Articles.remove({_id: articleId})
     },
 
     insertComment(comment) {
+        commentUpsertSchema.validate(comment)
+
         let commentDoc = {
             content: comment.content,
             articleId: comment.articleId,
