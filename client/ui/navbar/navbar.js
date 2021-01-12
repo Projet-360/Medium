@@ -10,7 +10,12 @@ Template.navbar.events({
         Meteor.logout()
     },
     'click .js-goto-create-article' (event, instance) {
-        FlowRouter.go('/article/create')
+        if (Meteor.userId()) {
+            FlowRouter.go('article/create')
+        } else {
+            Session.set('rediection', 'article/create')
+            Modal.show('login_modal')
+        }
     }
 })
 
@@ -18,6 +23,10 @@ Template.login_modal.onCreated( function() {
     this.autorun(() => {
        if(Meteor.userId()) {
            Modal.hide('login_modal')
+           if (Session.get('rediection')) {
+            FlowRouter.go(Session.get('rediection'))
+            Session.set('rediection', undefined)
+           }
        }
     })
 })
