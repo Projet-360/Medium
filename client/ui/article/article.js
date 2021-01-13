@@ -30,10 +30,18 @@ Template.article_list.helpers({
     }
 })
 
+Template.article_page.onCreated(function() {
+    this.subscribe('articles.single', FlowRouter.getParam('articleId'))
+})
+
 Template.article_page.helpers({
     article() {
         return Articles.findOne({_id: FlowRouter.getParam('articleId')})
     }
+})
+
+Template.article_edit_form.onCreated(function() {
+    this.subscribe('articles.single', FlowRouter.getParam('articleId'))
 })
 
 Template.article_edit_form.helpers({
